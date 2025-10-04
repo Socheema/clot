@@ -2,16 +2,14 @@
   "name": "clot",
   "version": "0.1.0",
   "private": true,
- "scripts": {
-  "dev": "next dev --turbopack",
-  "build": "next build --turbopack",
-  "start": "next start",
-  "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-  "typecheck": "tsc --noEmit",
-  "format": "prettier --write ."
-
-},
-
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write ."
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",
     "@tanstack/react-query": "^5.90.2",
@@ -39,7 +37,9 @@
     "typescript": "^5"
   },
   "lint-staged": {
-  "**/*.{ts,tsx,js,jsx}": ["npm run lint -- --fix", "npm run format"]
-}
-
+    "**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
 }
