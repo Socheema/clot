@@ -1,26 +1,28 @@
-'use client';
+'use client'
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { ShoppingBasket, ChevronDown, Search, User } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-import type { FC } from 'react';
+import Image from 'next/image'
+import Link from 'next/link'
+import { ShoppingBasket, ChevronDown, Search, User } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import type { FC } from 'react'
+
+
 
 interface NavLink {
-  name: string;
-  href: string;
+  name: string
+  href: string
 }
 
 const Navbar: FC = () => {
-  const rawPath = usePathname();
+  const rawPath = usePathname()
   // usePathname can be null in some rendering contexts, so fallback to '/'
-  const pathname = rawPath ?? '/';
+  const pathname = rawPath ?? '/'
 
   const navLinks: NavLink[] = [
     { name: 'Home', href: '/' },
     { name: 'Categories', href: '/categories' },
     { name: 'Favorites', href: '/favorites' },
-  ];
+  ]
 
   return (
     <nav className="w-full p-4 text-text flex flex-col md:px-8 gap-4 sticky top-0 left-0 right-0 z-50 shadow-card bg-background/90 backdrop-blur-md">
@@ -36,7 +38,7 @@ const Navbar: FC = () => {
           </Link>
           <Link
             href="/"
-            className="h-[40px] w-[40px] rounded-full bg-primary items-center justify-center flex"
+            className="icon-btn"
           >
             <ShoppingBasket size={20} />
           </Link>
@@ -44,7 +46,7 @@ const Navbar: FC = () => {
 
         <form
           action=""
-          className="flex items-center justify-center w-full rounded-[18px] h-[40px] bg-brand-2"
+          className="flex items-center justify-center w-full rounded-[18px] h-[40px] bg-brand-2 "
         >
           <Search size={16} className="ml-3 text-text-muted" />
           <input
@@ -63,7 +65,7 @@ const Navbar: FC = () => {
 
         <div className="flex items-center gap-8">
           {navLinks.map(({ href, name }) => {
-            const isActive = pathname === href;
+            const isActive = pathname === href
 
             return (
               <Link
@@ -90,7 +92,7 @@ const Navbar: FC = () => {
                   aria-hidden="true"
                 />
               </Link>
-            );
+            )
           })}
         </div>
 
@@ -117,7 +119,7 @@ const Navbar: FC = () => {
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

@@ -1,9 +1,9 @@
 /* app/globals.css */
 @import 'tailwindcss';
 
-  html {
-    scroll-behavior: smooth;
-  }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background-color: #1d182a;
@@ -51,5 +51,35 @@ body {
 @media (min-width: 1280px) {
   @theme {
     --container-padding: 4rem;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@layer components {
+  .icon-btn {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-primary);
+    &:hover {
+      background-color: #7b54d9;
+       transition: background-color 0.3s ease;
+    }
+    &:active {
+      background-color: #6a43c1;
+       transition: background-color 0.1s ease;
+    }
   }
 }

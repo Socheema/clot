@@ -23,7 +23,7 @@ const BottomNav: FC = () => {
   const pathname = rawPath ?? '/'
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 flex justify-around py-3 md:hidden ">
+    <nav className="fixed bottom-0 left-0 right-0 flex justify-around py-3 md:hidden shadow-card bg-background/90 backdrop-blur-md z-50">
       {navItems?.map(({ href, icon: Icon, label }) => {
         const active = pathname === href
         return (
