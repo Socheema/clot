@@ -1,38 +1,73 @@
-import React from "react";
-import CategoryCard from "@/components/category/CategoryCard";
+'use client'
+import { useState } from 'react'
+import CategoryChip from './CategoryChip'
+import CategoryPanel from './CategoryPanel'
+import { useRouter } from 'next/navigation'
 
-type Category = {
-  image: string;
-  text: string;
-};
+interface Category {
+  id: number
+  name: string
+  image: string
+  slug: string
+}
 
-const categories: Category[] = [
-  { image: "/category/hoodies.png", text: "Hoodies" },
-  { image: "/category/shorts.png", text: "Shorts" },
-  { image: "/category/shoes.png", text: "Shoes" },
-  { image: "/category/bags.png", text: "Bags" },
-  { image: "/category/accessories.png", text: "Accessories" },
-];
+interface Props {
+  categories: Category[]
+}
 
-const CategoryList: React.FC = () => {
+export default function CategoryList({ categories }: Props) {
+  const [active, setActive] = useState<string | null>(null)
+  const [isCategoryPanelOpen, setIsCategoryPanelOpen] = useState(false)
+  const router = useRouter()
+
+  const handleSelect = (slug: string) => {
+    setActive(slug)
+    router.push(`/category/${slug}`)
+    setIsCategoryPanelOpen(false)
+  }
+
   return (
-    <div className="flex flex-col gap-4 items-center">
-      {/* Header */}
-      <div className="flex items-center justify-between w-full">
-        <p className="font-bold">Categories</p>
-        <p className="text-sm cursor-pointer hover:underline">
+    <div className="flex flex-col gap-4 relative">
+      <div className="flex items-center justify-between">
+        <p className="font-semibold">Categories</p>
+        <p
+          onClick={() => setIsCategoryPanelOpen(true)}
+          className="text-sm text-white cursor-pointer hover:underline"
+        >
           See All
         </p>
       </div>
 
-      {/* Scrollable List */}
-      <div className="flex items-center gap-3 w-full overflow-x-auto no-scrollbar px-2 snap-x snap-mandatory">
+      <div className="flex gap-4 overflow-x-auto no-scrollbar py-2 snap-x snap-mandatory">
         {categories.map((cat) => (
-          <CategoryCard key={cat.text} image={cat.image} text={cat.text} />
+          <CategoryChip
+            key={cat.id}
+            name={cat.name}
+            image={cat.image}
+            isActive={active === cat.slug}
+            onClick={() => handleSelect(cat.slug)}
+          />
         ))}
       </div>
-    </div>
-  );
-};
 
-export default CategoryList;
+      {isCategoryPanelOpen && (
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity animate-fadeIn"
+            onClick={() => setIsCategoryPanelOpen(false)}
+          />
+
+          {/* Slide-up panel */}
+          <div className="absolute inset-x-0 top-0 z-50 animate-slideUp">
+            <CategoryPanel
+              categories={categories}
+              onClose={() => setIsCategoryPanelOpen(false)}
+              onSelect={handleSelect}
+            />
+          </div>
+        </>
+      )}
+    </div>
+  )
+}

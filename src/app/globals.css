@@ -12,9 +12,10 @@ body {
 
 @theme {
   /* Colors */
-  --color-brand: #1d182a;
+  --color-brand: #1A1625;
   --color-primary: #8e6cef;
   --color-brand-2: #342f3f;
+  --color-brand-3: #2A2433;
   --color-text: #ffffff;
 
   /* Font families */
@@ -83,3 +84,31 @@ body {
     }
   }
 }
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.35s ease-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+

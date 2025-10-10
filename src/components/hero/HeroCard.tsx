@@ -29,7 +29,7 @@ const Hero: FC<HeroProps> = ({ description, price, discountedPrice, backgroundSr
       )}
 
       {/* Product Info */}
-      <div className="bg-brand-2 p-2 w-full rounded-b-lg">
+      <div className="bg-brand-3 p-2 w-full rounded-b-lg">
         <div className="flex flex-col gap-2">
           {description && <p className="text-white text-[10px]">{description}</p>}
           {price !== undefined && discountedPrice !== undefined && (

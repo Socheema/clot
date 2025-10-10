@@ -3,10 +3,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ShoppingBasket, ChevronDown, Search, User } from 'lucide-react'
-import { usePathname } from 'next/navigation'
-import type { FC } from 'react'
-
-
+import { usePathname, useRouter } from 'next/navigation'
+import { useState, type FC } from 'react'
 
 interface NavLink {
   name: string
@@ -14,8 +12,9 @@ interface NavLink {
 }
 
 const Navbar: FC = () => {
+
+
   const rawPath = usePathname()
-  // usePathname can be null in some rendering contexts, so fallback to '/'
   const pathname = rawPath ?? '/'
 
   const navLinks: NavLink[] = [
@@ -23,6 +22,8 @@ const Navbar: FC = () => {
     { name: 'Categories', href: '/categories' },
     { name: 'Favorites', href: '/favorites' },
   ]
+
+  const router = useRouter()
 
   return (
     <nav className="w-full p-4 text-text flex flex-col md:px-8 gap-4 sticky top-0 left-0 right-0 z-50 shadow-card bg-background/90 backdrop-blur-md">
@@ -32,29 +33,28 @@ const Navbar: FC = () => {
           <Link href="/">
             <Image src="/logo/clot.png" alt="Clot Logo" width={40} height={40} />
           </Link>
-          <Link href="/" className="flex items-center rounded-[18px] bg-brand-2 gap-1 py-2 px-4">
+          <Link href="/" className="flex items-center rounded-[18px] bg-brand-3 gap-1 py-2 px-4">
             <p className="text-[14px]">Men</p>
             <ChevronDown size={16} />
           </Link>
-          <Link
-            href="/"
-            className="icon-btn"
-          >
+          <Link href="/" className="icon-btn">
             <ShoppingBasket size={20} />
           </Link>
         </div>
 
-        <form
-          action=""
-          className="flex items-center justify-center w-full rounded-[18px] h-[40px] bg-brand-2 "
-        >
-          <Search size={16} className="ml-3 text-text-muted" />
-          <input
-            type="text"
-            placeholder="Search for products, brands and more"
-            className="w-full bg-background border-none px-2 text-sm focus:outline-none placeholder:text-[12px]"
-          />
-        </form>
+        {pathname !== '/search' && (
+          <form
+            className="flex items-center justify-center w-full rounded-[18px] h-[40px] bg-brand-3 "
+            onClick={() => router.push('/search')}
+          >
+            <Search size={16} className="ml-3 text-text-muted" />
+            <input
+              type="text"
+              placeholder="Search for products, brands and more"
+              className="w-full bg-background border-none px-2 text-sm focus:outline-none placeholder:text-[12px]"
+            />
+          </form>
+        )}
       </div>
 
       {/* DESKTOP VIEW */}
@@ -99,7 +99,7 @@ const Navbar: FC = () => {
         <div className="flex items-center gap-6">
           <form
             action=""
-            className="flex items-center justify-center w-full rounded-[18px] h-[40px] bg-brand-2"
+            className="flex items-center justify-center w-full rounded-[18px] h-[40px] bg-brand-3"
           >
             <Search size={16} className="ml-2 text-text-muted" />
             <input
