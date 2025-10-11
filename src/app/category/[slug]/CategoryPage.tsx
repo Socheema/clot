@@ -1,4 +1,4 @@
-import { getProductsByCategory, getCategoryBySlug } from '@/lib/product'
+import { getProductsByCategory, getCategoryBySlug } from '@/lib/api/products'
 import ProductCard from '@/components/product/ProductCard'
 import BackButton from '@/components/backButton/BackButton'
 

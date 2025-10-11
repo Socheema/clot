@@ -1,5 +1,5 @@
 import SearchScreen from '@/components/search/SearchScreen';
-import { getCategories } from '@/lib/product';
+import { getCategories } from '@/lib/api/products';
 
 export default async function SearchPage() {
   const categories = await getCategories();

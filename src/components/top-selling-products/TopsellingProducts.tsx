@@ -1,5 +1,5 @@
 import ProductCard from '../product/ProductCard'
-import { getBestSellingProducts } from '@/lib/product'
+import { getBestSellingProducts } from '@/lib/api/products'
 
 const topSelling = await getBestSellingProducts()
 

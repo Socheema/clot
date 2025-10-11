@@ -1,4 +1,4 @@
-import { getCategories } from '@/lib/product'
+import { getCategories } from '@/lib/api/products'
 import CategoryList from '@/components/category/CategoryList'
 import TopSellingProducts from '@/components/top-selling-products/TopsellingProducts'
 import NewProduct from '@/components/new-products/NewProducts'

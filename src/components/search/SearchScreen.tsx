@@ -176,7 +176,7 @@ const FilterModal = ({
   <div className="fixed inset-0 bg-black/50 flex items-end z-50">
     <div className="bg-brand w-full rounded-t-3xl p-6 animate-slideUp max-h-[90vh] overflow-y-auto no-scrollbar">
       <div className="flex justify-between items-center mb-6 sticky top-0 bg-brand z-10">
-        <button onClick={clearFilters} className="text-purple-400 text-sm font-medium">
+        <button onClick={clearFilters} className="text-primary text-sm font-medium">
           Clear
         </button>
         <h2 className="text-xl font-semibold capitalize">
