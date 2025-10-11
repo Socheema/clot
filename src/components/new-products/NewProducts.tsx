@@ -11,8 +11,8 @@ export default function NewProducts() {
         <p>See All</p>
       </div>
       <div className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory">
-        {topSelling.map((p) => (
-          <ProductCard key={p.id} id={p.id} name={p.name} price={p.price} image={p.image} />
+        {topSelling.reverse().map((p) => (
+          <ProductCard key={p.id} id={p.id} name={p.name} price={p.price} image={p.image} discounted_price={p.discounted_price} />
         ))}
       </div>
     </div>

@@ -27,7 +27,7 @@ export default function CategoryList({ categories }: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-4 relative">
+    <div className="flex flex-col gap-4 relative w-full">
       <div className="flex items-center justify-between">
         <p className="font-semibold">Categories</p>
         <p
@@ -59,7 +59,7 @@ export default function CategoryList({ categories }: Props) {
           />
 
           {/* Slide-up panel */}
-          <div className="absolute inset-x-0 top-0 z-50 animate-slideUp">
+          <div className="absolute inset-x-0 top-0 z-50 animate-slideUp overflow-y-auto snap-y snap-mandatory no-scrollbar">
             <CategoryPanel
               categories={categories}
               onClose={() => setIsCategoryPanelOpen(false)}

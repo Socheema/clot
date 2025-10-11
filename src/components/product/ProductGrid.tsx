@@ -6,6 +6,7 @@ export interface Product {
   name: string;
   price: number;
   image: string;
+  discounted_price?: number;
 }
 
 export default function ProductGrid({ products }: { products: Product[] }) {
@@ -18,6 +19,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
           name={p.name}
           price={p.price}
           image={p.image}
+          discounted_price={p.discounted_price}
         />
       ))}
     </div>
