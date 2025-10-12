@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { ShoppingBasket, ChevronDown, Search, User } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState, type FC } from 'react'
+import { CartBadge } from '../cart/CartBadge'
+
 
 interface NavLink {
   name: string
@@ -38,7 +40,7 @@ const Navbar: FC = () => {
             <ChevronDown size={16} />
           </Link>
           <Link href="/" className="icon-btn">
-            <ShoppingBasket size={20} />
+           <CartBadge />
           </Link>
         </div>
 

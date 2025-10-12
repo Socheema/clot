@@ -2,11 +2,10 @@ import type { Metadata } from 'next'
 import './globals.css'
 import QueryProvider from '@/providers/QueryProvider'
 import { Inter } from 'next/font/google'
-import Navbar from '@/components/layout/Navbar'
-import BottomNav from '@/components/layout/BottomNav'
+
+import ConditionalLayout from '@/components/layout/ConditionalLayout'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
-
 
 export const metadata: Metadata = {
   title: 'Clot | Premium E-commerce',
@@ -18,9 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${inter.className}`} suppressHydrationWarning>
         <QueryProvider>
-          <Navbar />
-          <main>{children}</main>
-          <BottomNav />
+          <ConditionalLayout>{children}</ConditionalLayout>
         </QueryProvider>
       </body>
     </html>
