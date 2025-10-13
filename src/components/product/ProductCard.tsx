@@ -51,8 +51,31 @@ export default function ProductCard({
     e.preventDefault()
     e.stopPropagation()
 
-    // For quick add without color/size, redirect to product page
-    toast.info('Please select color and size on product page')
+    setIsAdding(true)
+    try {
+      addToCart({
+        product_id: id,
+        name: name,
+        price: price,
+        discounted_price: discounted_price || undefined,
+        image: validImage,
+        color: 'Default',
+        color_hex: '#000000',
+        size: 'One Size',
+        in_stock: in_stock,
+        quantity: 1,
+      })
+
+      toast.success('Added to cart!')
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error('An unexpected error occurred.')
+      }
+    } finally {
+      setIsAdding(false)
+    }
   }
 
   const handleFavorite = (e: React.MouseEvent) => {
@@ -79,7 +102,7 @@ export default function ProductCard({
         </div>
 
         {/* Product Info */}
-        <div className="bg-brand-3 p-2 w-[159px] rounded-b-lg">
+        <div className="bg-brand-3 p-2 w-[160px] rounded-b-lg">
           <div className="flex flex-col gap-1">
             {name && (
               <p className="text-white text-[10px] truncate font-medium">{name}</p>
@@ -105,7 +128,7 @@ export default function ProductCard({
         {/* Heart Icon - Top Right */}
         <button
           onClick={handleFavorite}
-          className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 bg-white/80 backdrop-blur p-1.5 rounded-full hover:bg-white"
+          className="absolute top-6 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 bg-icon-btn backdrop-blur p-1.5 rounded-full hover:bg-white"
         >
           <Heart
             size={18}
@@ -116,7 +139,8 @@ export default function ProductCard({
         {/* Quick Add Button - Bottom Right */}
         <button
           onClick={handleQuickAdd}
-          className="absolute right-3 bottom-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 bg-white/80 backdrop-blur p-1.5 rounded-full hover:bg-white"
+          disabled={isAdding}
+          className="absolute right-3 bottom-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 bg-white/80 backdrop-blur p-1.5 rounded-full hover:bg-white disabled:opacity-50"
         >
           <PlusCircleIcon size={18} className="text-primary" />
         </button>

@@ -30,74 +30,75 @@ export default function CartPage() {
   }
 
   return (
-    <div className="flex flex-col gap-8 max-w-4xl mx-auto p-4">
-      <div className="sticky top-0 flex items-center justify-between bg-brand px-1 py-4 shadow z-10">
+    <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+      <div className="sticky top-0 flex items-center justify-between shadow-card px-2 py-4 bg-brand z-10 w-full">
         <BackButton />
         <h2 className="text-xl font-bold">Cart</h2>
         <div className="icon-btn">
           <CartBadge />
         </div>
       </div>
+      <div className="flex- flex-col px-4 gap-4">
+        <div className="flex flex-col gap-2 overflow-y-auto snap-y snap-mandatory no-scrollbar">
+          <div className="space-y-2 rounded-lg">
+            {items.map((item) => (
+              <div key={item.id} className="flex items-center gap-2 bg-brand-3 p-1 rounded-lg ">
+                <div className="relative w-24 h-24 flex-shrink-0">
+                  <Image
+                    src={item.image}
+                    alt={item.name || 'Product'}
+                    fill
+                    className="rounded-lg object-cover"
+                  />
+                </div>
+                <div className="flex flex-col gap-4 w-full">
+                  <div className="flex item-center justify-between">
+                    <h3 className=" self-center font-semibold text-xs truncate max-w-[100px]">
+                      {item.name || 'Product'}
+                    </h3>
 
-      <div className="flex flex-col gap-2 overflow-y-auto snap-y snap-mandatory no-scrollbar">
-        <div className="space-y-2 rounded-lg">
-          {items.map((item) => (
-            <div key={item.id} className="flex items-center gap-2 bg-brand-3 p-1 rounded-lg ">
-              <div className="relative w-24 h-24 flex-shrink-0">
-                <Image
-                  src={item.image}
-                  alt={item.name || 'Product'}
-                  fill
-                  className="rounded-lg object-cover"
-                />
-              </div>
-              <div className="flex flex-col gap-4 w-full">
-                <div className="flex item-center justify-between">
-                  <h3 className=" self-center font-semibold text-xs truncate max-w-[100px]">
-                    {item.name || 'Product'}
-                  </h3>
+                    <div className="flex items-center gap-4">
+                      <p className="text-xs text-white font-bold">
+                        ${(item.discounted_price || item.price).toFixed(2)}
+                      </p>
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="text-red-500 hover:text-red-700 transition-colors bg-primary rounded-full p-1"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
 
-                  <div className="flex items-center gap-4">
-                    <p className="text-xs text-white font-bold">
-                      ${(item.discounted_price || item.price).toFixed(2)}
-                    </p>
-                    <button
-                      onClick={() => removeItem(item.id)}
-                      className="text-red-500 hover:text-red-700 transition-colors bg-primary rounded-full p-1"
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                  <div className="flex item-center justify-between ">
+                    <div className="flex items-center gap-2">
+                      <p className="flex text-sm text-white/50  text-[10px] ">
+                        Size - <span className="text-white font-semibold">{item.size}</span>
+                      </p>
+                      <p className=" flex text-sm text-white/50  text-[10px] ">
+                        Color - <span className="text-white font-semibold"> {item.color}</span>
+                      </p>
+                    </div>
+                    <div className="flex items-center rounded-full">
+                      <button
+                        onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
+                        className="text-white hover:text-brand bg-primary rounded-full p-1"
+                      >
+                        <Minus size={16} />
+                      </button>
+                      <span className="w-8 text-center text-sm font-semibold">{item.quantity}</span>
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="text-white hover:text-brand bg-primary rounded-full p-1"
+                      >
+                        <Plus size={16} />
+                      </button>
+                    </div>
                   </div>
                 </div>
-
-                <div className="flex item-center justify-between ">
-                  <div className="flex items-center gap-2">
-                    <p className="flex text-sm text-white/50  text-[10px] ">
-                      Size - <span className="text-white font-semibold">{item.size}</span>
-                    </p>
-                    <p className=" flex text-sm text-white/50  text-[10px] ">
-                      Color - <span className="text-white font-semibold"> {item.color}</span>
-                    </p>
-                  </div>
-                  <div className="flex items-center rounded-full">
-                    <button
-                      onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
-                      className="text-white hover:text-brand bg-primary rounded-full p-1"
-                    >
-                      <Minus size={16} />
-                    </button>
-                    <span className="w-8 text-center text-sm font-semibold">{item.quantity}</span>
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="text-white hover:text-brand bg-primary rounded-full p-1"
-                    >
-                      <Plus size={16} />
-                    </button>
-                  </div>
-                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
