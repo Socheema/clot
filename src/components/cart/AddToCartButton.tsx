@@ -23,9 +23,15 @@ interface AddToCartButtonProps {
   product: Product
   selectedColor?: Color
   selectedSize?: string
+  onSuccess?: () => void
 }
 
-export function AddToCartButton({ product, selectedColor, selectedSize }: AddToCartButtonProps) {
+export function AddToCartButton({
+  product,
+  selectedColor,
+  selectedSize,
+  onSuccess
+}: AddToCartButtonProps) {
   const { addToCart, hasItem } = useCart()
   const [isAdding, setIsAdding] = useState(false)
 
@@ -54,6 +60,13 @@ export function AddToCartButton({ product, selectedColor, selectedSize }: AddToC
       })
 
       toast.success('Added to cart!')
+
+      // Call the success callback after 2 seconds
+      setTimeout(() => {
+        if (onSuccess) {
+          onSuccess()
+        }
+      }, 2000)
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message)
@@ -71,9 +84,10 @@ export function AddToCartButton({ product, selectedColor, selectedSize }: AddToC
     <button
       onClick={handleAddToCart}
       disabled={isAdding || !product.in_stock}
-      className="w-full bg-primary text-white py-2 px-2 rounded-full font-semibold"
+      className="w-full bg-primary text-white py-2 px-2 rounded-full font-semibold flex items-center justify-center gap-2"
     >
-      {isAdding ? 'Adding...' : isInCart ? 'Added to Cart' : (<PlusCircleIcon />)}
+      <PlusCircleIcon size={18} />
+      {isAdding ? 'Adding...' : isInCart ? 'Added to Cart' : 'Add to Cart'}
     </button>
   )
 }

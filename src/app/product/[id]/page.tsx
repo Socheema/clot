@@ -9,6 +9,8 @@ import Spinner from '@/components/ui/spinner/Spinner'
 import BackButton from '@/components/backButton/BackButton'
 import AddToFavoriteButton from '@/components/ui/spinner/AddToFavoriteButton'
 import ProductReviews from '@/components/product/ProductReview'
+import { CartBadge } from '@/components/cart/CartBadge'
+import { useCart } from '@/lib/hooks/useCart'
 
 interface Product {
   id: string | number
@@ -28,6 +30,7 @@ export default function ProductDetailPage() {
   const params = useParams()
   const productId = params?.id as string
   const router = useRouter()
+  const { addToCart, updateQuantity, hasItem, removeItem } = useCart()
   const [product, setProduct] = useState<Product | null>(null)
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedColor, setSelectedColor] = useState<{ name: string; hex: string } | undefined>(
@@ -38,6 +41,7 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true)
   const [isFavorited, setIsFavorited] = useState(false)
   const [activeModal, setActiveModal] = useState<'color' | 'size' | null>(null)
+  const [isAddedToCart, setIsAddedToCart] = useState(false)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -78,6 +82,58 @@ export default function ProductDetailPage() {
   const effectivePrice = product.discounted_price || product.price
   const images = product.images && product.images.length > 0 ? product.images : ['/placeholder.png']
 
+  const handleDecreaseQuantity = () => {
+    if (quantity <= 1) {
+      // Remove from cart if quantity would be 0
+      if (selectedColor && selectedSize) {
+        const itemId = `${product.id}-${selectedColor.name}-${selectedSize}`
+        removeItem(itemId)
+      }
+      setQuantity(0)
+      setIsAddedToCart(false)
+    } else {
+      const newQuantity = quantity - 1
+      setQuantity(newQuantity)
+      // Update cart with new quantity
+      if (selectedColor && selectedSize && product.in_stock) {
+        const itemId = `${product.id}-${selectedColor.name}-${selectedSize}`
+        updateQuantity(itemId, newQuantity)
+      }
+    }
+  }
+
+  const handleIncreaseQuantity = () => {
+    const newQuantity = quantity + 1
+    setQuantity(newQuantity)
+
+    // Check if product is in cart
+    if (selectedColor && selectedSize && product.in_stock) {
+      const isInCart = hasItem(product.id, selectedColor.name, selectedSize)
+
+      if (!isInCart) {
+        // Add to cart if not already there
+        addToCart({
+          product_id: product.id,
+          name: product.name,
+          price: product.price,
+          discounted_price: product.discounted_price || undefined,
+          image: product.images[0],
+          color: selectedColor.name,
+          color_hex: selectedColor.hex,
+          size: selectedSize,
+          in_stock: product.in_stock,
+          quantity: newQuantity,
+        })
+        setIsAddedToCart(true)
+      } else {
+        // Update quantity if already in cart
+        const itemId = `${product.id}-${selectedColor.name}-${selectedSize}`
+        updateQuantity(itemId, newQuantity)
+        setIsAddedToCart(true)
+      }
+    }
+  }
+
   return (
     <div className="min-h-screen bg-brand text-white flex flex-col">
       {/* Header */}
@@ -86,7 +142,9 @@ export default function ProductDetailPage() {
           <BackButton />
         </button>
         <button>
-          <AddToFavoriteButton />
+          <div className="icon-btn">
+            <CartBadge />
+          </div>
         </button>
       </div>
 
@@ -190,14 +248,14 @@ export default function ProductDetailPage() {
               <h3 className="font-semibold text-lg">Quantity</h3>
               <div className="flex items-center gap-4">
                 <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  onClick={handleDecreaseQuantity}
                   className="flex items-center justify-center  rounded-full text-lg w-8 h-8 font-bold bg-primary transition-colors hover:bg-brand-3 hover:text-primary"
                 >
                   −
                 </button>
                 <span className="text-sm font-semibold w-8 text-center">{quantity}</span>
                 <button
-                  onClick={() => setQuantity(quantity + 1)}
+                  onClick={handleIncreaseQuantity}
                   className="flex items-center justify-center  rounded-full text-lg w-8 h-8 font-bold bg-primary transition-colors hover:bg-brand-3 hover:text-primary"
                 >
                   +
@@ -246,20 +304,31 @@ export default function ProductDetailPage() {
         <div className="flex items-center justify-between px-4 py-2 bg-primary rounded-full w-full">
           <span className="text-xl font-bold text-white">${effectivePrice.toFixed(2)}</span>
 
+          <AddToFavoriteButton/>
+
           <div className="flex items-center">
-            <AddToCartButton
-              product={{
-                id: String(product.id),
-                name: product.name,
-                price: product.price,
-                discounted_price: product.discounted_price ?? product.price,
-                images: product.images,
-                in_stock: product.in_stock,
-              }}
-              selectedColor={selectedColor}
-              selectedSize={selectedSize}
-            />
-          
+            {isAddedToCart ? (
+              <button
+                onClick={() => router.push('/cart')}
+                className="text-white font-semibold px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
+              >
+                Checkout
+              </button>
+            ) : (
+              <AddToCartButton
+                product={{
+                  id: String(product.id),
+                  name: product.name,
+                  price: product.price,
+                  discounted_price: product.discounted_price ?? product.price,
+                  images: product.images,
+                  in_stock: product.in_stock,
+                }}
+                selectedColor={selectedColor}
+                selectedSize={selectedSize}
+                onSuccess={() => setIsAddedToCart(true)}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -26,7 +26,8 @@ export default function ConditionalLayout({ children }: ConditionalLayoutProps) 
   const showFooter =
     !pathname.includes('/admin') &&
     !pathname.includes('/login') &&
-    !pathname.includes('/product/1') &&
+    !pathname.includes('/product/') &&
+    !pathname.includes('/cart') &&
     !pathname.includes('/signup');
 
   return (

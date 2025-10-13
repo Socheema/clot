@@ -39,7 +39,7 @@ const Navbar: FC = () => {
             <p className="text-[14px]">Men</p>
             <ChevronDown size={16} />
           </Link>
-          <Link href="/" className="icon-btn">
+          <Link href="/cart" className="icon-btn">
            <CartBadge />
           </Link>
         </div>
@@ -115,7 +115,7 @@ const Navbar: FC = () => {
             <User size={20} className="text-text-muted hover:text-white" />
           </Link>
 
-          <Link href="/">
+          <Link href="/cart">
             <ShoppingBasket className="hover:text-primary transition-colors" />
           </Link>
         </div>
