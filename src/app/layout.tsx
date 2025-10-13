@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import QueryProvider from '@/providers/QueryProvider'
 import { Inter } from 'next/font/google'
+import { Toaster } from 'sonner'
 
 import ConditionalLayout from '@/components/layout/ConditionalLayout'
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className}`} suppressHydrationWarning>
         <QueryProvider>
           <ConditionalLayout>{children}</ConditionalLayout>
+             <Toaster position="top-right" />
         </QueryProvider>
       </body>
     </html>
